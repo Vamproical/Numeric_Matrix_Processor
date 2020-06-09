@@ -12,6 +12,7 @@ public class ChooseOperation {
             System.out.println("2. Multiply matrix to a constant");
             System.out.println("3. Multiply matrices");
             System.out.println("4. Transpose matrix");
+            System.out.println("5. Calculate a determinant");
             System.out.println("0. Exit");
             System.out.println("Your choice: ");
             int i = scanner.nextInt();
@@ -97,6 +98,17 @@ public class ChooseOperation {
                             operationOnMatrix1.transposeHorizontal();
                             break;
                     }
+                    break;
+                case 5:
+                    System.out.println("Enter size of the matrix: ");
+                    int rowForDeterminant = scanner.nextInt();
+                    int columnForDeterminant = scanner.nextInt();
+                    Matrix matrixForDeterminant = new Matrix(rowForDeterminant, columnForDeterminant);
+                    System.out.println("Enter the matrix: ");
+                    matrixForDeterminant.enterMatrix();
+                    OperationOnMatrix operationOnMatrix2 = new OperationOnMatrix(matrixForDeterminant);
+                    System.out.println("The result is: ");
+                    operationOnMatrix2.determinant();
                     break;
                 case 0:
                     flag = true;

@@ -111,4 +111,33 @@ public class OperationOnMatrix {
         }
         result.printMatrix();
     }
+
+    public double determinant(Matrix matrix1) {
+        double result = 0;
+        if (matrix1.getRow() == 1) {
+            return matrixA.getCoordination(0, 0);
+        }
+        if (matrix1.getRow() == 2) {
+            result = matrix1.getCoordination(0, 0) * matrix1.getCoordination(1, 1) - matrix1.getCoordination(0, 1) * matrix1.getCoordination(1, 0);
+            return result;
+        }
+        for (int i = 0; i < matrix1.getColumn(); i++) {
+            Matrix matrix = new Matrix(matrix1.getRow() - 1, matrix1.getColumn() - 1);
+            for (int j = 1; j < matrix1.getRow(); j++) {
+                for (int k = 0; k < matrix1.getColumn(); k++) {
+                    if (k < i) {
+                        matrix.setCoordination(j - 1, k, matrix1.getCoordination(j, k));
+                    } else if (k > i) {
+                        matrix.setCoordination(j - 1, k - 1, matrix1.getCoordination(j, k));
+                    }
+                }
+                result += matrix1.getCoordination(0, i) * Math.pow(-1, i) * determinant(matrix);
+            }
+        }
+        return result;
+    }
+
+    public void determinant() {
+        System.out.println(determinant(matrixA));
+    }
 }
