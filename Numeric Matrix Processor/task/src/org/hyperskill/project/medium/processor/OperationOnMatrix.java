@@ -56,4 +56,59 @@ public class OperationOnMatrix {
         System.out.println("The multiplication is:");
         result.printMatrix();
     }
+
+    public void transposeMain() {
+        int row = matrixA.getRow();
+        int column = matrixA.getColumn();
+        Matrix result = new Matrix(row, column);
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                result.setCoordination(i, j, matrixA.getCoordination(j, i));
+            }
+        }
+        result.printMatrix();
+    }
+
+    public void transposeSide() {
+        int row = matrixA.getRow();
+        int column = matrixA.getColumn();
+        Matrix result = new Matrix(row, column);
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < row - i; j++) {
+                result.setCoordination(i, j, matrixA.getCoordination(row - j - 1, row - i - 1));
+                result.setCoordination(row - j - 1, row - i - 1, matrixA.getCoordination(i, j));
+            }
+        }
+        result.printMatrix();
+    }
+
+    public void transposeVertical() {
+        int row = matrixA.getRow();
+        int column = matrixA.getColumn();
+        Matrix result = new Matrix(row, column);
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                double temp = matrixA.getCoordination(i, j);
+                result.setCoordination(i, column - j - 1, temp);
+                temp = matrixA.getCoordination(i, column - j - 1);
+                result.setCoordination(i, j, temp);
+            }
+        }
+        result.printMatrix();
+    }
+
+    public void transposeHorizontal() {
+        int row = matrixA.getRow();
+        int column = matrixA.getColumn();
+        Matrix result = new Matrix(row, column);
+        for (int j = 0; j < column; j++) {
+            for (int i = 0; i < row; i++) {
+                double temp = matrixA.getCoordination(i, j);
+                result.setCoordination(row - i - 1, j, temp);
+                temp = matrixA.getCoordination(row - i - 1, j);
+                result.setCoordination(i, j, temp);
+            }
+        }
+        result.printMatrix();
+    }
 }

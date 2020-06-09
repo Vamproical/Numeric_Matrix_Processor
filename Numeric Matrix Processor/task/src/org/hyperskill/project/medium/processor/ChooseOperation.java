@@ -11,6 +11,7 @@ public class ChooseOperation {
             System.out.println("1. Add matrices");
             System.out.println("2. Multiply matrix to a constant");
             System.out.println("3. Multiply matrices");
+            System.out.println("4. Transpose matrix");
             System.out.println("0. Exit");
             System.out.println("Your choice: ");
             int i = scanner.nextInt();
@@ -65,6 +66,36 @@ public class ChooseOperation {
                     } else {
                         OperationOnMatrix operationOnMatrix1 = new OperationOnMatrix(matrixAForMultiply, matrixBForMultiply);
                         operationOnMatrix1.multiplyMatrices();
+                    }
+                    break;
+                case 4:
+                    System.out.println("1. Main diagonal");
+                    System.out.println("2. Side diagonal");
+                    System.out.println("3. Vertical line");
+                    System.out.println("4. Horizontal line");
+                    System.out.println("Your choice: ");
+                    int transposeChoose = scanner.nextInt();
+                    System.out.println("Enter matrix size: ");
+                    int rowForTranspose = scanner.nextInt();
+                    int columnForTranspose = scanner.nextInt();
+                    Matrix matrix1 = new Matrix(rowForTranspose, columnForTranspose);
+                    System.out.println("Enter matrix: ");
+                    matrix1.enterMatrix();
+                    OperationOnMatrix operationOnMatrix1 = new OperationOnMatrix(matrix1);
+                    System.out.println("The result is: ");
+                    switch (transposeChoose) {
+                        case 1:
+                            operationOnMatrix1.transposeMain();
+                            break;
+                        case 2:
+                            operationOnMatrix1.transposeSide();
+                            break;
+                        case 3:
+                            operationOnMatrix1.transposeVertical();
+                            break;
+                        case 4:
+                            operationOnMatrix1.transposeHorizontal();
+                            break;
                     }
                     break;
                 case 0:
