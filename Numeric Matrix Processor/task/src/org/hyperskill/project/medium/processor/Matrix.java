@@ -24,7 +24,7 @@ public class Matrix {
     public void printMatrix() {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                System.out.print(matrix[i][j] + " ");
+                System.out.printf("%.2f ", matrix[i][j]);
             }
             System.out.println();
         }

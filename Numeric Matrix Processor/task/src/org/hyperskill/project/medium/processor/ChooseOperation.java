@@ -13,6 +13,7 @@ public class ChooseOperation {
             System.out.println("3. Multiply matrices");
             System.out.println("4. Transpose matrix");
             System.out.println("5. Calculate a determinant");
+            System.out.println("6. Inverse matrix");
             System.out.println("0. Exit");
             System.out.println("Your choice: ");
             int i = scanner.nextInt();
@@ -34,7 +35,9 @@ public class ChooseOperation {
                         System.out.println("ERROR");
                     } else {
                         OperationOnMatrix operationOnMatrix = new OperationOnMatrix(matrixAForAdd, matrixBForAdd);
-                        operationOnMatrix.addMatrix();
+                        Matrix add = operationOnMatrix.addMatrix();
+                        System.out.println("The result is: ");
+                        add.printMatrix();
                     }
                     break;
                 case 2:
@@ -47,7 +50,9 @@ public class ChooseOperation {
                     System.out.println("Enter the constant: ");
                     double constant = scanner.nextInt();
                     OperationOnMatrix operationOnMatrix = new OperationOnMatrix(matrix);
-                    operationOnMatrix.multiplyConstant(constant);
+                    Matrix multConst = operationOnMatrix.multiplyConstant(matrix, constant);
+                    System.out.println("The result is: ");
+                    multConst.printMatrix();
                     break;
                 case 3:
                     System.out.println("Enter size of first matrix: ");
@@ -66,7 +71,9 @@ public class ChooseOperation {
                         System.out.println("ERROR");
                     } else {
                         OperationOnMatrix operationOnMatrix1 = new OperationOnMatrix(matrixAForMultiply, matrixBForMultiply);
-                        operationOnMatrix1.multiplyMatrices();
+                        System.out.println("The result is: ");
+                        Matrix multiply = operationOnMatrix1.multiplyMatrices();
+                        multiply.printMatrix();
                     }
                     break;
                 case 4:
@@ -86,16 +93,20 @@ public class ChooseOperation {
                     System.out.println("The result is: ");
                     switch (transposeChoose) {
                         case 1:
-                            operationOnMatrix1.transposeMain();
+                            Matrix main = operationOnMatrix1.transposeMain(matrix1);
+                            main.printMatrix();
                             break;
                         case 2:
-                            operationOnMatrix1.transposeSide();
+                            Matrix side = operationOnMatrix1.transposeSide();
+                            side.printMatrix();
                             break;
                         case 3:
-                            operationOnMatrix1.transposeVertical();
+                            Matrix vertical = operationOnMatrix1.transposeVertical();
+                            vertical.printMatrix();
                             break;
                         case 4:
-                            operationOnMatrix1.transposeHorizontal();
+                            Matrix horizontal = operationOnMatrix1.transposeHorizontal();
+                            horizontal.printMatrix();
                             break;
                     }
                     break;
@@ -109,6 +120,22 @@ public class ChooseOperation {
                     OperationOnMatrix operationOnMatrix2 = new OperationOnMatrix(matrixForDeterminant);
                     System.out.println("The result is: ");
                     operationOnMatrix2.determinant();
+                    break;
+                case 6:
+                    System.out.println("Enter size of the matrix: ");
+                    int rowForInverse = scanner.nextInt();
+                    int columnForInverse = scanner.nextInt();
+                    Matrix matrixForInverse = new Matrix(rowForInverse, columnForInverse);
+                    System.out.println("Enter the matrix: ");
+                    matrixForInverse.enterMatrix();
+                    OperationOnMatrix operationOnMatrix3 = new OperationOnMatrix(matrixForInverse);
+                    if (operationOnMatrix3.determinant(matrixForInverse) == 0) {
+                        System.out.println("ERROR");
+                    } else {
+                        Matrix inverse = operationOnMatrix3.inverseMatrix();
+                        System.out.println("The result is: ");
+                        inverse.printMatrix();
+                    }
                     break;
                 case 0:
                     flag = true;

@@ -14,7 +14,7 @@ public class OperationOnMatrix {
         this.matrixB = matrixB;
     }
 
-    public void addMatrix() {
+    public Matrix addMatrix() {
         int row = matrixA.getRow();
         int column = matrixA.getColumn();
         Matrix result = new Matrix(row, column);
@@ -24,25 +24,23 @@ public class OperationOnMatrix {
                 result.setCoordination(i, j, value);
             }
         }
-        System.out.println("The add result is:");
-        result.printMatrix();
+        return result;
     }
 
-    public void multiplyConstant(double constant) {
-        int row = matrixA.getRow();
-        int column = matrixA.getColumn();
+    public Matrix multiplyConstant(Matrix matrix, double constant) {
+        int row = matrix.getRow();
+        int column = matrix.getColumn();
         Matrix result = new Matrix(row, column);
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                double value = matrixA.getCoordination(i, j) * constant;
+                double value = matrix.getCoordination(i, j) * constant;
                 result.setCoordination(i, j, value);
             }
         }
-        System.out.println("The multiplication to a constant result is:");
-        result.printMatrix();
+        return result;
     }
 
-    public void multiplyMatrices() {
+    public Matrix multiplyMatrices() {
         Matrix result = new Matrix(matrixA.getRow(), matrixB.getColumn());
         for (int i = 0; i < matrixA.getRow(); i++) {
             for (int j = 0; j < matrixB.getColumn(); j++) {
@@ -53,23 +51,22 @@ public class OperationOnMatrix {
                 result.setCoordination(i, j, value);
             }
         }
-        System.out.println("The multiplication is:");
-        result.printMatrix();
+        return result;
     }
 
-    public void transposeMain() {
-        int row = matrixA.getRow();
-        int column = matrixA.getColumn();
+    public Matrix transposeMain(Matrix matrix) {
+        int row = matrix.getRow();
+        int column = matrix.getColumn();
         Matrix result = new Matrix(row, column);
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                result.setCoordination(i, j, matrixA.getCoordination(j, i));
+                result.setCoordination(i, j, matrix.getCoordination(j, i));
             }
         }
-        result.printMatrix();
+        return result;
     }
 
-    public void transposeSide() {
+    public Matrix transposeSide() {
         int row = matrixA.getRow();
         int column = matrixA.getColumn();
         Matrix result = new Matrix(row, column);
@@ -79,10 +76,10 @@ public class OperationOnMatrix {
                 result.setCoordination(row - j - 1, row - i - 1, matrixA.getCoordination(i, j));
             }
         }
-        result.printMatrix();
+        return result;
     }
 
-    public void transposeVertical() {
+    public Matrix transposeVertical() {
         int row = matrixA.getRow();
         int column = matrixA.getColumn();
         Matrix result = new Matrix(row, column);
@@ -94,10 +91,10 @@ public class OperationOnMatrix {
                 result.setCoordination(i, j, temp);
             }
         }
-        result.printMatrix();
+        return result;
     }
 
-    public void transposeHorizontal() {
+    public Matrix transposeHorizontal() {
         int row = matrixA.getRow();
         int column = matrixA.getColumn();
         Matrix result = new Matrix(row, column);
@@ -109,7 +106,7 @@ public class OperationOnMatrix {
                 result.setCoordination(i, j, temp);
             }
         }
-        result.printMatrix();
+        return result;
     }
 
     public double determinant(Matrix matrix1) {
@@ -122,22 +119,38 @@ public class OperationOnMatrix {
             return result;
         }
         for (int i = 0; i < matrix1.getColumn(); i++) {
-            Matrix matrix = new Matrix(matrix1.getRow() - 1, matrix1.getColumn() - 1);
-            for (int j = 1; j < matrix1.getRow(); j++) {
-                for (int k = 0; k < matrix1.getColumn(); k++) {
-                    if (k < i) {
-                        matrix.setCoordination(j - 1, k, matrix1.getCoordination(j, k));
-                    } else if (k > i) {
-                        matrix.setCoordination(j - 1, k - 1, matrix1.getCoordination(j, k));
-                    }
-                }
-                result += matrix1.getCoordination(0, i) * Math.pow(-1, i) * determinant(matrix);
-            }
+            result += Math.pow(-1, i) * matrix1.getCoordination(0, i)
+                    * determinant(minor(matrix1, 0, i));
         }
         return result;
     }
 
     public void determinant() {
         System.out.println(determinant(matrixA));
+    }
+
+    private static Matrix minor(Matrix matrix, int row, int col) {
+        Matrix minor = new Matrix(matrix.getRow() - 1, matrix.getColumn() - 1);
+        for (int i = 0; i < matrix.getColumn(); i++) {
+            for (int j = 0; i != row && j < matrix.getColumn(); j++) {
+                if (j != col) {
+                    minor.setCoordination(i < row ? i : i - 1, j < col ? j : j - 1, matrix.getCoordination(i, j));
+                }
+            }
+        }
+        return minor;
+    }
+
+    public Matrix inverseMatrix() {
+        Matrix matrix = new Matrix(matrixA.getRow(), matrixA.getColumn());
+        for (int i = 0; i < matrix.getRow(); i++) {
+            for (int j = 0; j < matrix.getColumn(); j++) {
+                matrix.setCoordination(i, j, Math.pow(-1, i + j) * determinant(minor(matrixA, i, j)));
+            }
+        }
+        double inverseDetermination = 1.0 / determinant(matrixA);
+        matrix = transposeMain(matrix);
+        matrix = multiplyConstant(matrix, inverseDetermination);
+        return matrix;
     }
 }
